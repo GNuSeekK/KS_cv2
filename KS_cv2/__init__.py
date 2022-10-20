@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Sep  8 10:31:47 2022
+v0.0.1 - 모듈 배포
 
 @author: 이기성
 """
@@ -11,6 +12,7 @@ import os
 from PIL import ImageFont, ImageDraw, Image
 import numpy as np
 
+    
 def kr_imread(path):
     img_array = np.fromfile(path, np.uint8)
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
@@ -26,7 +28,20 @@ def kr_imwrite(path, img):
     else:
         raise TypeError
         
-def kr_putText(img, text, axes, font_size=50, color=(255,255,255), outline=True):
+def kr_putText(img: np.ndarray, text: str, axes: tuple, font_size: int=50, color: tuple=(255,255,255), outline: bool=True):
+    """_summary_
+
+    Args:
+        img (np.ndarray): cv2로 불러온 이미지
+        text (str): 들어갈 텍스트.
+        axes (tuple): 텍스트 넣을 좌표 값 (x, y).
+        font_size (int, optional): 글씨 크기. Defaults to 50.
+        color (tuple, optional): 색상 (B, G, R). Defaults to (255,255,255).
+        outline (bool, optional): 외각선 유무. Defaults to True.
+
+    Returns:
+        np.ndarray: cv2 이미지 타입
+    """    
     font = ImageFont.truetype('fonts/gulim.ttc', font_size)
     x1, y1 = axes
     img = Image.fromarray(img)
