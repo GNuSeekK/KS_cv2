@@ -2,7 +2,7 @@
 """
 Created on Thu Sep  8 10:31:47 2022
 v0.0.1 - 모듈 배포
-
+v0.0.2 - putText list 추가 및 get font_size 추가
 @author: 이기성
 """
 
@@ -12,7 +12,7 @@ import os
 from PIL import ImageFont, ImageDraw, Image
 import numpy as np
 
-    
+__version__ = 'v0.0.2'
 def kr_imread(path):
     img_array = np.fromfile(path, np.uint8)
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
@@ -43,10 +43,44 @@ def kr_putText(img: np.ndarray, text: str, axes: tuple, font_size: int=50, color
         np.ndarray: cv2 이미지 타입
     """    
     font = ImageFont.truetype('fonts/gulim.ttc', font_size)
-    x1, y1 = axes
     img = Image.fromarray(img)
     draw = ImageDraw.Draw(img)
+    
+    x1, y1 = axes
     if outline:
         draw.text((x1, y1), text, font=font, fill=(0,0,0), stroke_width=1, strock_fill='#fff')
     draw.text((x1, y1), text, font=font, fill=color)
     return np.array(img)
+
+def kr_putText_list(img: np.ndarray, text_axes: list, font_size: int=50, color: tuple=(255,255,255), outline: bool=True):
+    """_summary_
+
+    Args:
+        img (np.ndarray): cv2로 불러온 이미지
+        text_axes (list): (text, x, y) 로 이루어진 튜플의 리스트.
+        font_size (int, optional): 글씨 크기. Defaults to 50.
+        color (tuple, optional): 색상 (B, G, R). Defaults to (255,255,255).
+        outline (bool, optional): 외각선 유무. Defaults to True.
+
+    Returns:
+        np.ndarray: cv2 이미지 타입
+    """    
+    font = ImageFont.truetype('fonts/gulim.ttc', font_size)
+
+    img = Image.fromarray(img)
+    draw = ImageDraw.Draw(img)
+    for text, x, y in text_axes:
+        if outline:
+            draw.text((x, y), text, font=font, fill=(0,0,0), stroke_width=1, strock_fill='#fff')
+        draw.text((x, y), text, font=font, fill=color)
+    return np.array(img)
+
+def get_fontsize(img: np.array, size: int):
+    """_summary_
+
+    Args:
+        img (np.array): 이미지
+        size (int): 1~3
+    """
+    font_size = (img.shape[0] * img.shape[1]) // (40000 * size)
+    return font_size
