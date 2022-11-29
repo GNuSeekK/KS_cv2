@@ -4,6 +4,7 @@ Created on Thu Sep  8 10:31:47 2022
 v0.0.1 - 모듈 배포
 v0.0.2 - putText list 추가 및 get font_size 추가
 v0.0.3 - putText에 autofont 옵션 추가
+v0.0.4 - putText에 docstrig 추가
 @author: 이기성
 """
 
@@ -13,7 +14,7 @@ import os
 from PIL import ImageFont, ImageDraw, Image
 import numpy as np
 
-__version__ = 'v0.0.3'
+__version__ = 'v0.0.4'
 def kr_imread(path):
     img_array = np.fromfile(path, np.uint8)
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
@@ -62,6 +63,7 @@ def kr_putText_list(img: np.ndarray, text_axes: list, font_size: int=50, color: 
         font_size (int, optional): 글씨 크기. Defaults to 50.
         color (tuple, optional): 색상 (B, G, R). Defaults to (255,255,255).
         outline (bool, optional): 외각선 유무. Defaults to True.
+        auto_font (bool, optional): 자동 폰트 사이즈. Defaults to False.
 
     Returns:
         np.ndarray: cv2 이미지 타입
