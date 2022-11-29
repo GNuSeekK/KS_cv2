@@ -8,7 +8,7 @@ dependency_links = [
 
 setup(
     name = 'KS_cv2',
-    version='0.0.2',
+    version='0.0.3',
     description='Custom cv2',
     url='https://github.com/GNuSeekK/KS_cv2.git',
     author='Keesung',

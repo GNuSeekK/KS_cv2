@@ -3,6 +3,7 @@
 Created on Thu Sep  8 10:31:47 2022
 v0.0.1 - 모듈 배포
 v0.0.2 - putText list 추가 및 get font_size 추가
+v0.0.3 - putText에 autofont 옵션 추가
 @author: 이기성
 """
 
@@ -12,7 +13,7 @@ import os
 from PIL import ImageFont, ImageDraw, Image
 import numpy as np
 
-__version__ = 'v0.0.2'
+__version__ = 'v0.0.3'
 def kr_imread(path):
     img_array = np.fromfile(path, np.uint8)
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
@@ -52,7 +53,7 @@ def kr_putText(img: np.ndarray, text: str, axes: tuple, font_size: int=50, color
     draw.text((x1, y1), text, font=font, fill=color)
     return np.array(img)
 
-def kr_putText_list(img: np.ndarray, text_axes: list, font_size: int=50, color: tuple=(255,255,255), outline: bool=True):
+def kr_putText_list(img: np.ndarray, text_axes: list, font_size: int=50, color: tuple=(255,255,255), outline: bool=True, auto_font: bool=False):
     """_summary_
 
     Args:
@@ -65,7 +66,10 @@ def kr_putText_list(img: np.ndarray, text_axes: list, font_size: int=50, color: 
     Returns:
         np.ndarray: cv2 이미지 타입
     """    
-    font = ImageFont.truetype('fonts/gulim.ttc', font_size)
+    if auto_font:
+        font = ImageFont.truetype('fonts/gulim.ttc', get_fontsize(img, font_size))
+    else:
+        font = ImageFont.truetype('fonts/gulim.ttc', font_size)
 
     img = Image.fromarray(img)
     draw = ImageDraw.Draw(img)
