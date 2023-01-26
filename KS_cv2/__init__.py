@@ -5,6 +5,7 @@ v0.0.1 - 모듈 배포
 v0.0.2 - putText list 추가 및 get font_size 추가
 v0.0.3 - putText에 autofont 옵션 추가
 v0.0.4 - putText에 docstrig 추가
+v0.0.5 - expand_img 추가
 @author: 이기성
 """
 
@@ -14,7 +15,7 @@ import os
 from PIL import ImageFont, ImageDraw, Image
 import numpy as np
 
-__version__ = 'v0.0.4'
+__version__ = 'v0.0.5'
 def kr_imread(path):
     img_array = np.fromfile(path, np.uint8)
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
@@ -90,3 +91,16 @@ def get_fontsize(img: np.array, size: int):
     """
     font_size = (img.shape[0] * img.shape[1]) // (40000 * size)
     return font_size
+
+def expand_img(img: np.array, width: int=0, height: int=0):
+    """_summary_
+
+    Args:
+        img (np.array): 넘파이 이미지
+        width (int): img.shape[1] 에서 더할 값
+        height (int): img.shape[0] 에서 더할 값
+    """    
+    new_img = np.zeros((img.shape[0]+height, img.shape[1]+width, img.shape[2])) + 255
+    img = np.append(img, new_img, axis=1)
+    img = np.array(img, dtype='uint8')
+    return img
